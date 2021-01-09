@@ -15,17 +15,22 @@ class QuotesPage extends StatefulWidget {
 }
 
 class _QuotesPageState extends State<QuotesPage> {
+  bool loading = true;
+  Size screenSize;
+
   Future<QuotesDao> _randomQuotes() async {
     var url = "https://www.affirmations.dev/";
     var response = await Http.get(url);
     Map map = json.decode(response.body);
     QuotesDao msg = QuotesDao.fromJson(map);
     print("message = " + msg?.message);
+    loading = false;
     return msg;
   }
 
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -35,22 +40,62 @@ class _QuotesPageState extends State<QuotesPage> {
           future: _randomQuotes(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              QuotesDao msg = snapshot.data;
-              return Text(msg.message);
+              return cardQuote(snapshot.data);
             } else {
               return CircularProgressIndicator();
             }
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            //Re build
-          });
-        },
-        tooltip: 'random',
-        child: Icon(Icons.cached),
+    );
+  }
+
+  Widget cardQuote(QuotesDao quote) {
+    return Card(
+      color: Colors.transparent,
+      elevation: 4.0,
+      child: Container(
+        width: screenSize.width / 1.2,
+        height: screenSize.height / 1.7,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: loading
+            ? CircularProgressIndicator()
+            : Column(
+          children: <Widget>[
+            Text(quote.message, textAlign: TextAlign.center),
+            Container(
+                width: screenSize.width / 1.2,
+                height: screenSize.height / 1.7 - screenSize.height / 2.2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("NOPE"),
+                      onPressed: () {
+                        if (!loading) {
+                          setState(() {
+                            loading = true;
+                          });
+                        }
+                      },
+                    ),
+                    new RaisedButton(
+                      child: Text("LIKE"),
+                      onPressed: () {
+                        if (!loading) {
+                          setState(() {
+                            loading = true;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ))
+          ],
+        ),
       ),
     );
   }
