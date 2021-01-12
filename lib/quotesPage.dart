@@ -17,6 +17,7 @@ class QuotesPage extends StatefulWidget {
 class _QuotesPageState extends State<QuotesPage> {
   bool loading = true;
   Size screenSize;
+  IconData _icon_emoticon;
 
   Future<QuotesDao> _randomQuotes() async {
     var url = "https://www.affirmations.dev/";
@@ -62,40 +63,44 @@ class _QuotesPageState extends State<QuotesPage> {
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: loading
-            ? CircularProgressIndicator()
+            ? Icon(_icon_emoticon, color: Colors.pink, size: 100.0)
             : Column(
-          children: <Widget>[
-            Text(quote.message, textAlign: TextAlign.center),
-            Container(
-                width: screenSize.width / 1.2,
-                height: screenSize.height / 1.7 - screenSize.height / 2.2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text("NOPE"),
-                      onPressed: () {
-                        if (!loading) {
-                          setState(() {
-                            loading = true;
-                          });
-                        }
-                      },
-                    ),
-                    new RaisedButton(
-                      child: Text("LIKE"),
-                      onPressed: () {
-                        if (!loading) {
-                          setState(() {
-                            loading = true;
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ))
-          ],
-        ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(quote.message, textAlign: TextAlign.center),
+                  Container(
+                      width: screenSize.width / 1.2,
+                      height: screenSize.height / 1.5 - screenSize.height / 2.2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          RaisedButton(
+                            child: Text("NOPE"),
+                            onPressed: () {
+                              if (!loading) {
+                                setState(() {
+                                  _icon_emoticon = Icons.sentiment_dissatisfied;
+                                  loading = true;
+                                });
+                              }
+                            },
+                          ),
+                          new RaisedButton(
+                            child: Text("LIKE"),
+                            onPressed: () {
+                              if (!loading) {
+                                setState(() {
+                                  _icon_emoticon =
+                                      Icons.sentiment_very_satisfied;
+                                  loading = true;
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ))
+                ],
+              ),
       ),
     );
   }
