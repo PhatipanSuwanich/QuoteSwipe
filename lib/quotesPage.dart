@@ -52,56 +52,56 @@ class _QuotesPageState extends State<QuotesPage> {
   }
 
   Widget cardQuote(QuotesDao quote) {
-    return Card(
-      color: Colors.transparent,
-      elevation: 4.0,
-      child: Container(
-        width: screenSize.width / 1.2,
-        height: screenSize.height / 1.7,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: loading
-            ? Icon(_icon_emoticon, color: Colors.pink, size: 100.0)
-            : Column(
+    return loading
+        ? Icon(_icon_emoticon, color: Colors.pink, size: 100.0)
+        : Card(
+            color: Colors.transparent,
+            elevation: 4.0,
+            child: Container(
+              width: screenSize.width / 1.2,
+              height: screenSize.height / 1.7,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(quote.message, textAlign: TextAlign.center),
                   Container(
-                      width: screenSize.width / 1.2,
-                      height: screenSize.height / 1.5 - screenSize.height / 2.2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          RaisedButton(
-                            child: Text("NOPE"),
-                            onPressed: () {
-                              if (!loading) {
-                                setState(() {
-                                  _icon_emoticon = Icons.sentiment_dissatisfied;
-                                  loading = true;
-                                });
-                              }
-                            },
-                          ),
-                          new RaisedButton(
-                            child: Text("LIKE"),
-                            onPressed: () {
-                              if (!loading) {
-                                setState(() {
-                                  _icon_emoticon =
-                                      Icons.sentiment_very_satisfied;
-                                  loading = true;
-                                });
-                              }
-                            },
-                          ),
-                        ],
-                      ))
+                    width: screenSize.width / 1.2,
+                    height: screenSize.height / 1.5 - screenSize.height / 2.2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text("NOPE"),
+                          onPressed: () {
+                            if (!loading) {
+                              setState(() {
+                                _icon_emoticon = Icons.sentiment_dissatisfied;
+                                loading = true;
+                              });
+                            }
+                          },
+                        ),
+                        new RaisedButton(
+                          child: Text("LIKE"),
+                          onPressed: () {
+                            if (!loading) {
+                              setState(() {
+                                _icon_emoticon = Icons.sentiment_very_satisfied;
+                                loading = true;
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-      ),
-    );
+            ),
+          );
   }
 }
